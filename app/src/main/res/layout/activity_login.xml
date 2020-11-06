@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        tools:context=".user.LoginActivity">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/card_view"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/img_logo"
+                android:layout_width="@dimen/_180sdp"
+                android:layout_height="@dimen/_180sdp"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="TODO"
+                android:src="@drawable/logo" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_logo"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/gothambold"
+                android:gravity="center_horizontal"
+                android:text="Login"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_16sdp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_logo"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/montserrat_regular"
+                android:gravity="center_horizontal"
+                android:lineSpacingExtra="@dimen/_5sdp"
+                android:text="Enter your mobile number \nto receive a verification code"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_10sdp"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_50sdp"
+            android:padding="@dimen/_20sdp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardElevation="@dimen/_10sdp"
+            app:contentPadding="@dimen/_15sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/ccp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        app:ccp_arrowColor="@color/colorPrimary"
+                        app:ccp_autoDetectCountry="true"
+                        app:ccp_autoFormatNumber="false"
+                        app:ccp_clickable="true"
+                        app:ccp_countryAutoDetectionPref="SIM_NETWORK_LOCALE"
+                        app:ccp_showArrow="false"
+                        app:ccp_showFlag="true"
+                        app:ccp_showNameCode="false"
+                        app:ccp_textGravity="RIGHT" />
+
+                    <EditText
+                        android:id="@+id/edt_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:hint="Mobile Number"
+                        android:inputType="number"
+                        android:padding="@dimen/_5sdp"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14sdp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@color/line_color" />
+
+                <TextView
+                    android:id="@+id/tv_register"
+                    style="@style/buttonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/edt_number"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:text="Login" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+    </RelativeLayout>
+</layout>

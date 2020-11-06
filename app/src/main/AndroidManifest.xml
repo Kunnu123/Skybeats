@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.skybeats">
+
+    <dist:module dist:instant="true" />
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".utils.AppClass"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
+        </activity>
+        <activity android:name=".SplashActivity">
+                        <intent-filter>
+                            <action android:name="android.intent.action.MAIN" />
+
+                            <category android:name="android.intent.category.LAUNCHER" />
+                        </intent-filter>
+        </activity>
+        <activity
+            android:name=".DiamondActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AddDiamondActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LiveActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SignupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".OtpActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity android:name=".MainActivity">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"
+                tools:replace="android:resource" />
+        </provider>
+
+        <!-- Add your API key here -->
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_8KQIYTSWWzujJn"/>
+    </application>
+
+</manifest>

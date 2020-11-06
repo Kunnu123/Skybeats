@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.drawerlayout.widget.DrawerLayout xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:openDrawer="start">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_profile"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/profile" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/app_name"
+                    android:textSize="@dimen/_14sdp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_video_camera" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.etebarian.meowbottomnavigation.MeowBottomNavigation
+                android:id="@+id/bottomNavigation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                app:mbn_backgroundBottomColor="#ffffff"
+                app:mbn_circleColor="#ffffff"
+                app:mbn_countBackgroundColor="#ff6f00"
+                app:mbn_countTextColor="#ffffff"
+                app:mbn_defaultIconColor="#90a4ae"
+                app:mbn_rippleColor="#2f424242"
+                app:mbn_selectedIconColor="#3c415e"
+                app:mbn_shadowColor="#1f212121" />
+        </FrameLayout>
+
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/nav_header_main"
+            app:menu="@menu/activity_main_drawer" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+
+</LinearLayout>

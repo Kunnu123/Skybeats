@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        tools:context=".user.LoginActivity">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg" />
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/selectableItemBackground"
+            android:padding="@dimen/_15sdp"
+            android:src="@drawable/back_arrow_white"
+            app:tint="@color/colorAccent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/card_view"
+            android:layout_marginTop="@dimen/_100sdp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_logo"
+                android:fontFamily="@font/gothambold"
+                android:gravity="center_horizontal"
+                android:text="OTP Verification"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_20sdp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_logo"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/gothambook"
+                android:gravity="center_horizontal"
+                android:lineSpacingExtra="@dimen/_10sdp"
+                android:padding="@dimen/_5sdp"
+                android:text="@string/enter_otp_code_below_which_you_have_received_n_bt_sms_on_your_registered_mobile_number"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/_12sdp" />
+
+
+            <com.skybeats.utils.OTPEditText
+                android:id="@+id/et_otp"
+                style="@style/PinWidget.PinView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:cursorVisible="true"
+                android:fontFamily="@font/montserrat_semibold"
+                android:gravity="center"
+                android:inputType="number"
+                android:itemBackground="@drawable/otp_selection"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_13sdp"
+                android:textStyle="bold"
+                app:cursorColor="@color/colorAccent"
+                app:cursorWidth="@dimen/_2sdp"
+                app:itemCount="4"
+                app:itemHeight="@dimen/_50sdp"
+                app:itemSpacing="8dp"
+                app:itemWidth="@dimen/_50sdp"
+                app:viewType="none" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_logo"
+                android:layout_marginTop="@dimen/_60sdp"
+                android:fontFamily="@font/gothambook"
+                android:gravity="center_horizontal"
+                android:text="00:30"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_12sdp" />
+
+            <TextView
+                android:id="@+id/tv_register"
+                style="@style/buttonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edt_number"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:gravity="center"
+                android:text="Submit" />
+
+            <TextView
+                android:id="@+id/tv_resend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_logo"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/gothambook"
+                android:gravity="center_horizontal"
+                android:lineSpacingExtra="@dimen/_10sdp"
+                android:padding="@dimen/_10sdp"
+                android:text="Resend"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_12sdp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

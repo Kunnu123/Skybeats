@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/gradient"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/selectableItemBackground"
+            android:padding="@dimen/_15sdp"
+            app:tint="@color/colorAccent"
+            android:src="@drawable/back_arrow_white" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/img_right"
+            android:layout_toRightOf="@+id/img_back"
+            android:fontFamily="@font/montserrat_regular"
+            android:gravity="center"
+            android:text="Profile"
+            android:textAllCaps="true"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/_14sdp" />
+
+        <ImageView
+            android:id="@+id/img_right"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentRight="true"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+</layout>
