@@ -52,7 +52,7 @@
             android:layout_height="@dimen/_100sdp"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:text="100"
+            android:text="0"
             android:layout_marginTop="20dp"
             android:textSize="@dimen/_20sdp"
             android:textColor="@color/colorAccent"

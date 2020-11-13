@@ -7,6 +7,9 @@ import android.content.SharedPreferences;
 import androidx.multidex.MultiDex;
 
 import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.gsonparserfactory.GsonParserFactory;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.skybeats.Constants;
 import com.skybeats.R;
 import com.skybeats.retrofit.ApiTask;

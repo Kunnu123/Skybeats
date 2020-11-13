@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.skybeats.MainActivity;
 import com.skybeats.R;
 import com.skybeats.TabAdapter;
 import com.skybeats.ui.SearchFragment;
@@ -23,6 +24,11 @@ public class DashboardFragment extends Fragment {
 
     TabLayout tabHome;
     ViewPager vpHome;
+    MainActivity mainActivity;
+
+    public DashboardFragment(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -36,7 +42,7 @@ public class DashboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TabAdapter viewPagerAdapter = new TabAdapter(getChildFragmentManager());
-        viewPagerAdapter.addFragment(new HomeFragment(), "Following");
+        viewPagerAdapter.addFragment(new HomeFragment(mainActivity), "Following");
         viewPagerAdapter.addFragment(new SearchFragment(), "Nearby");
         viewPagerAdapter.addFragment(new SearchFragment(), "Moments");
         viewPagerAdapter.addFragment(new SearchFragment(), "Live");

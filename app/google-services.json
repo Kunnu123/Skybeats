@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "6743409716",
+    "firebase_url": "https://bollywoodcollection-18749.firebaseio.com",
+    "project_id": "bollywoodcollection-18749",
+    "storage_bucket": "bollywoodcollection-18749.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:6743409716:android:f4c14ab585be9249",
+        "android_client_info": {
+          "package_name": "com.bollywoodmoviecollection"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "6743409716-9is7q3lttirna4pn63v45p712080o1in.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOCeLbcdjZuz05Y5MEW5xtlfv6bQDf2ww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "6743409716-9is7q3lttirna4pn63v45p712080o1in.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:6743409716:android:f2d92e33f482e234a87661",
+        "android_client_info": {
+          "package_name": "com.skybeats"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "6743409716-9is7q3lttirna4pn63v45p712080o1in.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOCeLbcdjZuz05Y5MEW5xtlfv6bQDf2ww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "6743409716-9is7q3lttirna4pn63v45p712080o1in.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:6743409716:android:f72aad3412d784f6",
+        "android_client_info": {
+          "package_name": "info.androidhive.firebasenotifications"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "6743409716-9is7q3lttirna4pn63v45p712080o1in.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOCeLbcdjZuz05Y5MEW5xtlfv6bQDf2ww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "6743409716-9is7q3lttirna4pn63v45p712080o1in.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

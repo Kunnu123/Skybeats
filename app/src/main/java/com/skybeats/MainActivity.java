@@ -1,6 +1,8 @@
 package com.skybeats;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import com.skybeats.ui.SearchFragment;
 import com.skybeats.ui.dashboard.DashboardFragment;
 import com.skybeats.ui.home.HomeFragment;
 import com.skybeats.ui.notifications.NotificationsFragment;
+import com.skybeats.utils.ImageUtils;
 
 public class MainActivity extends BaseActivity {
     ActivityMainBinding binding;
@@ -25,7 +28,7 @@ public class MainActivity extends BaseActivity {
     boolean isSearch = false;
     boolean isNotification = false;
     boolean isProfile = false;
-
+    private static final int PERMISSION_REQ_CODE_AUDIANCE = 123;
     private static final int PERMISSION_REQ_CODE = 1 << 4;
     private String[] PERMISSIONS = {
             Manifest.permission.RECORD_AUDIO,
@@ -40,7 +43,7 @@ public class MainActivity extends BaseActivity {
         setContentView(binding.getRoot());
 
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.maincontainer, new DashboardFragment());
+        transaction.add(R.id.maincontainer, new DashboardFragment(MainActivity.this));
         transaction.commit();
 
         binding.ivHome.setOnClickListener(new View.OnClickListener() {
@@ -55,7 +58,7 @@ public class MainActivity extends BaseActivity {
 //                binding.ivnoti.setBackgroundColor(getResources().getColor(R.color.black));
 //                binding.ivprofile.setBackgroundColor(getResources().getColor(R.color.black));
                 final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.maincontainer, new DashboardFragment());
+                transaction.replace(R.id.maincontainer, new DashboardFragment(MainActivity.this));
                 transaction.commit();
             }
         });
@@ -94,7 +97,11 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        binding.ivprofile.setOnClickListener(new View.OnClickListener() {
+        ImageUtils.loadImage(MainActivity.this, getMyPref().getUserData().getProfile_image(), R.drawable.avatar, binding.ivprofile);
+        binding.txtUser.setText(getMyPref().getUserData().getUser_name());
+        binding.txtSkyId.setText(getMyPref().getUserData().getUser_id());
+
+        binding.llProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 isHome = false;
@@ -114,7 +121,26 @@ public class MainActivity extends BaseActivity {
         binding.liveVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkPermission();
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                alertDialogBuilder.setMessage(getResources().getString(R.string.ter_message));
+                alertDialogBuilder.setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                checkPermission();
+                            }
+                        });
+
+                alertDialogBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+
+
             }
         });
 
@@ -151,6 +177,13 @@ public class MainActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    private void gotoAudiance(int role) {
+        Intent intent = new Intent(getIntent());
+        intent.putExtra(Constants.KEY_CLIENT_ROLE, role);
+        intent.setClass(getApplicationContext(), JoinLiveActivity.class);
+        startActivity(intent);
+    }
+
 
     private boolean permissionGranted(String permission) {
         return ContextCompat.checkSelfPermission(
@@ -177,6 +210,20 @@ public class MainActivity extends BaseActivity {
                 toastNeedPermissions();
             }
         }
+        if (requestCode == PERMISSION_REQ_CODE_AUDIANCE) {
+            boolean granted = true;
+            for (int result : grantResults) {
+                granted = (result == PackageManager.PERMISSION_GRANTED);
+                if (!granted) break;
+            }
+
+            if (granted) {
+                config().setChannelName("Skybeats");
+                gotoAudiance(io.agora.rtc.Constants.CLIENT_ROLE_AUDIENCE);
+            } else {
+                toastNeedPermissions();
+            }
+        }
     }
 
     private void toastNeedPermissions() {
@@ -193,7 +240,7 @@ public class MainActivity extends BaseActivity {
             isNotification = false;
             isProfile = false;
             final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.maincontainer, new DashboardFragment());
+            transaction.replace(R.id.maincontainer, new DashboardFragment(MainActivity.this));
             transaction.commit();
         }
     }

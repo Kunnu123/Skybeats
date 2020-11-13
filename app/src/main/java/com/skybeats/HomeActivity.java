@@ -54,10 +54,10 @@ public class HomeActivity extends BaseActivity {
         iv_profile = (AppCompatImageView) findViewById(R.id.iv_profile);
 
 
-        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, new DashboardFragment());
-        transaction.addToBackStack(null);
-        transaction.commit();
+//        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.container, new DashboardFragment());
+//        transaction.addToBackStack(null);
+//        transaction.commit();
 
         bottomNavigation.add(new MeowBottomNavigation.Model(ID_HOME, R.drawable.ic_home));
         bottomNavigation.add(new MeowBottomNavigation.Model(ID_EXPLORE, R.drawable.ic_search));
@@ -77,10 +77,10 @@ public class HomeActivity extends BaseActivity {
             public void onClickItem(MeowBottomNavigation.Model item) {
                 switch (item.getId()) {
                     case ID_HOME:
-                        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.container, new DashboardFragment());
-                        transaction.addToBackStack(null);
-                        transaction.commit();
+//                        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//                        transaction.replace(R.id.container, new DashboardFragment());
+//                        transaction.addToBackStack(null);
+//                        transaction.commit();
                         break;
                     case ID_EXPLORE:
                         final FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();

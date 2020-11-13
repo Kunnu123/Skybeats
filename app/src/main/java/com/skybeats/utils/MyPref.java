@@ -47,6 +47,8 @@ public class MyPref {
         editor.commit();
     }
 
+
+
     public void clearPrefs() {
         editor = preferences.edit();
         editor.clear();
@@ -62,6 +64,6 @@ public class MyPref {
     }
 
     public enum Keys {
-        UserData, userId, token, isLogin
+        UserData, userId, token, isLogin, devicetoken
     }
 }

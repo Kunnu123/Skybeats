@@ -59,12 +59,22 @@
 
                     </androidx.cardview.widget.CardView>
 
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_skyid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/poppins_bold"
+                        android:text="Name"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/_12sdp" />
+
                     <LinearLayout
                         android:id="@+id/llDisplay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/_10sdp">
+                        android:layout_gravity="center">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_name"

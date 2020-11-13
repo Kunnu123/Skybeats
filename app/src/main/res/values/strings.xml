@@ -54,4 +54,151 @@
     <string name="legal_channel_name_characters" translatable="false">&#xA0;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&amp;()+,-:;&lt;=.>?@[]^_`{|}~</string>
     <string name="nav_home">Home</string>
     <string name="nav_notifications">Notifications</string>
+
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <!--
+        This is the name that users will see when interacting with this channel.
+        It should describe the category of notifications that will be sent through this channel
+     -->
+    <!-- [START fcm_default_icon_string] -->
+    <string name="default_notification_channel_name" translatable="true">Weather</string>
+    <!-- [END fcm_default_icon_string] -->
+    <string name="msg_subscribe_failed">Failed to subscribe to weather topic</string>
+    <string name="fcm_message">FCM Message</string>
+    <string name="ter_message">"SkyBeats User Agreement
+
+
+Skbeats respects your privacy. When you are using our services (including our website http://www.skybeats.co.in and Skybeat's mobile applications), we may collect and use information regarding you. Through this "Privacy Policy", we intend to explain how we collect, use, store, or share this Information and how you can access, update, control and protect this information when you use our services. This "Privacy Policy" is closely related to your use of Skybeat's services. Please read it carefully and let it guide your actions on Skybeats services accordingly.
+
+Your use or continued use of our services will be taken as your consent to our collection, use, storage, and sharing of your Information according to this "Privacy Policy".
+
+If you have any questions regarding this "Privacy Policy" or related issues, please contact us via info@skybeats.co.in
+
+When we provide our services, we may collect, store, or use the following information regarding you. If you do not provide this relevant information, you may be unable to register an account and use some of our services. Even if we can continue to provide some services to you, it may be unable to achieve its intended effect.
+
+When you register an account with us or use our services, you will be asked to provide relevant information such as a mobile number or email address.
+
+You will also provide information that you share to other parties on our platform, as well as stored information regarding your use of our services.
+
+The information other parties provide about you when using our services.
+
+When you use our services, we may collect technical information through cookies, web beacon, and other methods. The information collected includes:
+
+Equipment or software information, such as your mobile device, web browser, configuration information used to access our services, IP address, the version of your mobile device and its identification code.
+
+When you use our services to search or browse information, we may collect your search keywords, URL addresses of social media pages accessed, or any content that you browse or provide when using our services. Mobile applications (APP) that you have used and other software related information; messages that you send through our services, for example accounts you have communicated with, length of communication, and related data.
+
+The content that you share through our services and its related data, such as the data, time, and location of your uploaded pictures and videos.
+
+Location information refers to the information we collect about your location when you open the location function and use any of our location-based services.
+
+When you use a mobile device that has a location tracking function, we may collect information regarding your geographhical location via GPS or WiFi.
+
+When you provide account information that includes your regional location, or someone else uploads information that displays your previous or current location (such as a picture tagged with a location), your location information will be collected.
+
+You can close the location tracker at anytime to stop our collection of your geographical location information.
+
+Skybeats may use information that it collects about you to:
+
+(i) Provide you when Skybeats's services, its features and functionalities, and deliver the services that you have requested.
+
+(ii) Us it for identity authentication, customer service, fraud monitoring, archiving and backup purposes, and to ensure the security of the products and services that we provide.
+
+(iii) Help us develop new services, and improve and customize our current services.
+
+(iv) Help us understand how you use our services and provide tailored responses to your individual needs, such as language setting, location setting, and personalized service and help instruction.
+
+(v) Display advertisements that are tailored to your interests in place of general advertising; evaluate the effect of our advertisements and promotional activities and improve its performance.
+
+(vi) Software certification and management of software upgrades.
+
+(vii) Perform research and analysis about your use of, or interest in Skybeat's services. In order to improve our user experience and in accordance with relevant laws and regulations, we may use the information we collect regarding a specific service as data to improve our other services. For example, if you use one of our services, we may use the information collected during that service to provide personalized content you see when you use another service of ours. You may also ask to use the same previous personal information stored in our system for our other services.
+
+(viii) Specific privacy policies for certain services will further explain how we specifically use your information during the service.
+
+We will take the appropriate technical means to ensure that you can access, update, and correct your registration information or other personal information provided during the use of our services. When you visit, update, correct or delete your personal information, we may ask you to verify your identity in order to protect your account security. Skybeats and its partners and affiliates does not share your personal information with other entities, except as indicated below.
+
+Skybeats may share your personal information with our affiliates, partners, third party service providers, contractors, and agents (for example, service providers who send out emails or push notifications for us, or provide us location data and map services) for these purposes:
+
+(i) To provide you with our services,
+
+(ii) Achieve the points stated in the section "How We Use Your Information", and
+
+(iii) understand, maintain, and improve our services. If Skybeats or any of Skybeat's associates share your information with a third party, we will try to ensure that the third party will use your information in accordance with our "Privacy Policy" and other appropriate confidentiality and security measures.
+
+As our business continues to develop, there may be a merger, acquisition, transfer of assets or similar transactions between Skybeats and its affiliates. Your personal information may be a part of such transactions and be transferred. If there is such transfer of your personal information, we will inform you beforehand.
+
+Skybeats and its associate companies may also retain, store, or disclose your personal information for the following reasons:
+
+(i) To comply with applicable laws and regulations.
+
+(ii)To comply with provisions of court order or other legal procedures, or
+
+(iii) To comply with the requirements of relevant government departments. We believe that it is necessary to comply with applicable laws and regulations, safeguard social and public interests, and protect the legitimate rights and interests of our our company, customers, users, and employees.
+
+We only retain your personal information within the necessary time period that is described in "Privacy Policy" and required by laws and regulations. We use a variety of security technologies and procedures to prevent the loss of information, improper use, unauthorized access or disclosure. For example, in some services, we will use encryption techniques (ex: SSL) to protect your provided personal information. However, please understand that due to technical and risk prevention limits, the security of your information is not always guaranteed even if we strenghten security measures. You must understand that when you use our system and network, there may always be circumstances that occur that are out of our control.
+
+Many parts of our service lets you share information not only with your social network but also with all users of the service. This includes the information that you upload on our services (including your public information, created lists), your reactions to content shared by others, and other relevant data regarding this information (such as location and time). Other users using our services may also share information regarding you. In particular, our social media platform is designed to allow you to share information with users around the world. As long as you do not delete shared information, it will continue to exist on this public platform. Even if you delete shared information, relevant information may still be saved, reproduced or stored by a non-affiliated third party beyond our control.
+
+Therefore, please consider carefully the content that you upload and share on our services. In some cases, you can control the privacy settings to control the audience and range of your shared information. If you want to request the deletion of your personal information from our service, please refer to the steps that need to be taken listed in its special provisions.
+
+Certain personal information may be considered as sensitive, such as your race, religion, health, and medical information. Sensitive personal information is more strictly protected than other personal information.
+
+Please note that the content and information that you provide, upload, or publish on our services (such as photos or information about your social activities) may reveal your sensitive personal information. Please carefully consider if you want to use our services and diclose your sensitive personal information.
+
+You agree that your sensitive personal information will be processed according to the purposes and methods of the "Privacy Policy". Cookies, log files, and WEB BEACON.
+
+Skybeats and its third party partners may collect and use your information through cookies and web beacon, and store the information in log files.
+
+We use our own cookies and web beacon with the purpose to provide you with a more personalized user experience and service, and for the following purposes:
+
+(i) Remember your identity. For example, cookies and web beacon help us identify you as a registered user, or save the information you provide about your preferences or other information.
+
+(ii) Analyze your use of our services. We can use cookies and web beacons to understand the activities you partake on our services, or which webpages of services are the most popular.
+
+(iii) Ad optimization. Cookies and web beacons help us provide you with more personalized advertisement.
+
+Skybeats uses cookies and web beacons for the above stated purposes. At the same time, Skybeats may use cookies and web beacons to collect non-personal information to analyze the use of our services and provide it to advertisement services and other partners. There may be cookies and web beacons that Skybeats's advertisement services or other partners place in our products and services. These cookies and web beacons may collect some of your non-personal information. They do not comply with Skybeat's "Privacy Policy", and instead complies with their own set of privacy policies. Skybeats does not assume any responsibility for third party cookies and web beacons.
+
+You can reject or manage cookies and web beacons via your browser settings. However, please note that if you disable cookies or web beacon, Skybeats may not be able to provide you with the best user experience and some services may not be able to be used. At the same time, you will still receive the same amount of advertisements, but the personalization of these ads will not be as high as before. We may use your information to provide you with more personalized advertisements.
+
+We may also use your information to send marketing messages to you through our services, email, or other means in order to provide or promote the following products and services:
+
+(i) The products and services of Skybeats and its affiliates and joint venture partners. These products and services include instant messaging services, online media services, interactive entertainment services, social networking services, payment services, Internet search services, location and map services, data management apps and services, online advertising services, Internet banking, and other social media, entertainment, e-commerce, information and communication software or services ("Internet services").
+
+(ii) Third party Internet service providers, and the following third party products and services: Food and beverage, sports, music, movies, television, live performances and other arts and entertainment, books, magazines and other publications, clothing and accessories, jewellery, cosmetics, health and hygiene, electronics, collectibles, household utensils, electrical appliances, home decor and furnishings, pets, cars, hotels, transportation, tourism, banking, insurance and financial services, membership points and loyalty incentives, and any other products or services that may be relevant to you. If you do not wish that we use your personal information for the above advertising purposes, you can request that we stop using your personal information for these purposes by following the related instructions as seen in our advertisements.
+
+We may use your information to send you emails, news, or other push notifications to your device. If you do not wish to receive this information, you can choose to cancel your subscription following the instructions given in the emails.
+
+When it is necessary, we may send you notice regarding our services (for example, if a service is suspended due to system maintenance). You may not be able to cancel these notifications related to our service.
+
+Skybeats services may include or link to third party social media or other services (including websites). For example, you can use the "share" option to share content onto our platform, or you can log into our service through a third party platform. These features may collect your information (including your log files), and may add cookies to your device in order to function normally.
+
+Skybeats will provide links to third party services or websites through our advertisements or our other services. The third party social media services may be operated by the said third party or Skybeats. Your use of the third party social media services (including providing the third party with any personal information) shall be subject to the third party's terms and conditions and privacy policy. Please read the terms and conditions carefully. Skybeat's "Privacy Policy" only applies to the information that we collect, not the information that the third party collects or uses. Skybeats does not assume any responsibility for the third party usage of your information. We require that user must be at least 18 years old to use our services. If any minors are found using our service, we will immediately terminate the service and remove all the rights from the accounts.
+
+With the exception of certain special services, all of our services are applicable to this "Privacy Policy". Specific privacy policies will apply to the special services mentioned. These specific privacy policies constitute a part of this "Privacy Policy". If a part of the specific privacy policy is different than this "Privacy Policy", then the terms of the specific privacy policy should be applied.
+
+Skybeats may revise the terms of this "Privacy Policy" at any time. If such revisions will cause your rights to decrease, we will display a notification in a prominent place on Skybeat's homepage, or email you before the revisions take effect. If you continue to use our services, you agree to be bound by the revised terms and are deemed to have accepted them.
+
+Skybeats is dedicated to providing an unique, interesting live stream platform for worldwide users. In order to ensure the quality of the live stream content, we have developed a code of conduct to guarantee a good user experience. We will do our best to maintain the quality of Skybeats content, however we cannot fully guarantee this. If you violate the following terms and rules, it may cause us to suspend or permanently terminate your use of Skybeats services.
+
+Safety is the first and foremost priority of Skybeats. Content and actions relating to violence or self-mutilation is strictly prohibited. If we detect any risk of damage to public safety or a direct threat, we reserve the right to delete the content directly and report it to relevant law enforcement agencies. Similarly, we strictly prohibit the threatening of others. If this occurs, we may permanently terminate your use of Skybeats services.
+
+Regardless of gender, you are not allowed to expose excessive skin in front of the camera. In particular, females must not expose their chestal area. Any users engaging in actions relating to or encouraging nudity will be temporarily or permanently banned from Skybeats services. You are also not allowed to use vulgar or explicit language in front of the camera or in the chatroom. This includes showing any pictures in front of the camera that contain aggressive or explicit content. Sexual acts, hinting of a sexual act, displaying sexual toys or dancing sexually are all prohibited as well. You must respect the other members of this community. Ridicule, fraud, hatred, racial discrimination, or harassment of other users is strictly prohibited on Skybeats. While we respect the freedom of speech, we strictly prohibit personal attacks based on race, nationality, religion, sex, gender, sexual orientation, disability, or other sicknesses.
+
+The use of prohibited drugs, medical devices, or smoking is prohibited during a live stream. For users under the age of 21, drinking during a live stream is also prohibited.
+
+Skybeats is designed for users over the age of 18. If we find that the user of an account is under the age of 18, we will terminate the account. If a user over the age of 18 broadcasts a live stream with a user under the age of 18, that live stream will be terminated.
+
+The publishing of another person's personal information (such as email, phone number, address) is strictly prohibited. We hereby strongly recommend you to protect your personal information well so it does not get leaked.
+
+Skybeats strictly prohibits users playing practical jokes on emergency departments or emergency hotlines. Any of these actions will result in the user being permanently banned from using Skybeat's services.
+
+Any content, actions, or language relating to sexual conduct of violation of law is prohibited. Similarly, any acts that guides or manipulates other users to spread sexual images or obtain personal information is also prohibited.
+
+Skybeats also strictly prohibits illegal business activities, including but not limited to marketing activities.
+
+Any language or action in the chat box or live stream encouraging the violation of law is strictly prohibited.
+
+Sending spam messages that interferes with other users' normal usage of Skybeats services is prohibited. Sending sexual pictures or links to websites containing malicious content is also prohibited. Skybeats will take the necessary measures against accounts participating in such activity."</string>
 </resources>

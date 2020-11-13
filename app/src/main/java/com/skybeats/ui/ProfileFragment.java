@@ -29,7 +29,7 @@ public class ProfileFragment extends Fragment {
 
 
     private MyPref myPref;
-    TextView tv_name, tv_mobile, txtWallets,txtDiamonds, txtLogOut,txtSettings;
+    TextView tv_name, tv_mobile, txtWallets,txtDiamonds, txtLogOut,txtSettings,tv_skyid;
     ImageView img_profile,ivEdit,ivCheck;
     LinearLayout llWallets, llSettings,llDisplay,llEdit;
     EditText edt_name;
@@ -39,6 +39,7 @@ public class ProfileFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
         tv_name = root.findViewById(R.id.tv_name);
+        tv_skyid = root.findViewById(R.id.tv_skyid);
         tv_mobile = root.findViewById(R.id.tv_mobile);
         img_profile = root.findViewById(R.id.img_profile);
         txtWallets = root.findViewById(R.id.txtWallets);
@@ -65,6 +66,7 @@ public class ProfileFragment extends Fragment {
         if (userModel!=null){
             tv_name.setText(userModel.getUser_name());
             tv_mobile.setText(userModel.getMobile_no());
+            tv_skyid.setText(userModel.getUser_id());
             ImageUtils.loadImage(getActivity(), userModel.getProfile_image(), R.drawable.avatar, img_profile);
         }
 

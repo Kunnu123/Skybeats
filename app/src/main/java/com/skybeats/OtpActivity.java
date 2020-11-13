@@ -143,6 +143,7 @@ public class OtpActivity extends BaseActivity implements View.OnClickListener, U
         HashMap<String, Object> map = new HashMap<>();
         map.put("mobile_no", mobile_no);
         map.put("otp", binding.etOtp.getText().toString());
+        map.put("notification_token", getMyPref().getData(MyPref.Keys.devicetoken));
         if (reqCode == ApiCallInterface.LOGIN) {
             map.put("password", "");
             map.put("is_login_via_otp", "1");

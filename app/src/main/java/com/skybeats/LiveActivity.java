@@ -1,21 +1,41 @@
 package com.skybeats;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.skybeats.stats.LocalStatsData;
 import com.skybeats.stats.RemoteStatsData;
 import com.skybeats.stats.StatsData;
 import com.skybeats.ui.VideoGridContainer;
+import com.skybeats.utils.AppClass;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import io.agora.rtc.Constants;
 import io.agora.rtc.IRtcEngineEventHandler;
@@ -27,6 +47,12 @@ public class LiveActivity extends RtcBaseActivity {
     private VideoGridContainer mVideoGridContainer;
     private ImageView mMuteAudioBtn;
     private ImageView mMuteVideoBtn;
+    private LinearLayout llMain;
+    private LinearLayout bottom_container;
+
+    private Myreceiver reMyreceive;
+    private IntentFilter filter;
+    FloatingActionButton menu;
 
     private VideoEncoderConfiguration.VideoDimensions mVideoDimension;
 
@@ -36,12 +62,145 @@ public class LiveActivity extends RtcBaseActivity {
         setContentView(R.layout.activity_live_room);
         initUI();
         initData();
+
+        reMyreceive=new Myreceiver();
+
+        //typo mistake
+        //Edited after pointing out by a reader, thanks
+        // IntentFilter filter=new IntentFilter("sohail.aziz");
+
+        filter=new IntentFilter("live.broadcast");
+
+    }
+
+    public class Myreceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // TODO Auto-generated method stub
+                flyEmoji(intent.getStringExtra("broadcast_url"), intent.getStringExtra("broadcast_type"), intent.getStringExtra("broadcast_message"));
+        }
+
+    }
+
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+
+    }
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        registerReceiver(reMyreceive, filter);
+    }
+
+    class RetrieveFeedTask extends AsyncTask<String, Void, Bitmap> {
+
+        private Exception exception;
+
+        protected Bitmap doInBackground(String... urls) {
+            try {
+                HttpURLConnection connection = (HttpURLConnection)new URL(urls[0]) .openConnection();
+                connection.setRequestProperty("User-agent","Mozilla/4.0");
+
+                connection.connect();
+                InputStream input = connection.getInputStream();
+
+                return BitmapFactory.decodeStream(input);
+            } catch (Exception e) {
+                this.exception = e;
+
+                return null;
+            }
+        }
+
+        protected void onPostExecute(Bitmap feed) {
+            // TODO: check this.exception
+            // TODO: do something with the feed
+
+            ZeroGravityAnimation animation = new ZeroGravityAnimation();
+            animation.setCount(1);
+            animation.setScalingFactor(0.2f);
+            animation.setOriginationDirection(Direction.BOTTOM);
+            animation.setDestinationDirection(Direction.TOP);
+            animation.setImage(feed);
+            animation.setDuration(5000);
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                                               @Override
+                                               public void onAnimationStart(Animation animation) {
+
+                                               }
+
+                                               @Override
+                                               public void onAnimationEnd(Animation animation) {
+
+                                               }
+
+                                               @Override
+                                               public void onAnimationRepeat(Animation animation) {
+
+                                               }
+                                           }
+            );
+
+            ViewGroup container = findViewById(R.id.main_container);
+
+            animation.play(LiveActivity.this, container);
+        }
+    }
+
+    public void flyEmoji(String url, String type, String message) {
+
+        if (type.equalsIgnoreCase("new_gift")){
+            new RetrieveFeedTask().execute(url);
+        }else {
+            LinearLayout llMain = findViewById(R.id.llMain);
+            AppCompatTextView textView = new AppCompatTextView(LiveActivity.this);
+            textView.setText(message);
+            textView.setPadding(20,20,20,20);
+            textView.setBackgroundDrawable(getResources().getDrawable(R.drawable.text_full_transparent));
+            textView.setTextColor(getResources().getColor(R.color.colorAccent));
+            textView.setVisibility(textView.VISIBLE);
+            textView.setAlpha(1.0f);
+// Start the animation
+            llMain.addView(textView);
+            textView.animate()
+                    .translationY(textView.getHeight())
+                    .setDuration(5000)
+                    .alpha(0.0f)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            textView.setVisibility(View.GONE);
+                        }
+                    });
+        }
+
+
+
     }
 
     private void initUI() {
         TextView roomName = findViewById(R.id.live_room_name);
+        llMain = findViewById(R.id.llMain);
+        bottom_container = findViewById(R.id.bottom_container);
+        menu = findViewById(R.id.menu);
         roomName.setText(config().getChannelName());
         roomName.setSelected(true);
+
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (bottom_container.getVisibility() == View.VISIBLE){
+                    bottom_container.setVisibility(View.GONE);
+                }else {
+                    bottom_container.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         initUserIcon();
 

@@ -83,7 +83,7 @@ public class BaseActivity extends AppCompatActivity implements EventHandler {
         return application().rtcEngine();
     }
 
-    protected EngineConfig config() {
+    public EngineConfig config() {
         return application().engineConfig();
     }
 
