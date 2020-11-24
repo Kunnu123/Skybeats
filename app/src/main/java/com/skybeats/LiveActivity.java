@@ -32,11 +32,13 @@ import com.skybeats.stats.RemoteStatsData;
 import com.skybeats.stats.StatsData;
 import com.skybeats.ui.VideoGridContainer;
 import com.skybeats.utils.AppClass;
+import com.skybeats.utils.ImageUtils;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.agora.rtc.Constants;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.video.VideoEncoderConfiguration;
@@ -185,10 +187,13 @@ public class LiveActivity extends RtcBaseActivity {
 
     private void initUI() {
         TextView roomName = findViewById(R.id.live_room_name);
+        TextView live_room_broadcaster_uid = findViewById(R.id.live_room_broadcaster_uid);
         llMain = findViewById(R.id.llMain);
         bottom_container = findViewById(R.id.bottom_container);
         menu = findViewById(R.id.menu);
-        roomName.setText(config().getChannelName());
+//        roomName.setText(config().getChannelName());
+        live_room_broadcaster_uid.setText("ID : " +config().getChannelName());
+        roomName.setText(getMyPref().getUserData().getUser_name());
         roomName.setSelected(true);
 
         menu.setOnClickListener(new View.OnClickListener() {
@@ -228,11 +233,12 @@ public class LiveActivity extends RtcBaseActivity {
     }
 
     private void initUserIcon() {
-        Bitmap origin = BitmapFactory.decodeResource(getResources(), R.drawable.fake_user_icon);
-        RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(getResources(), origin);
-        drawable.setCircular(true);
-        ImageView iconView = findViewById(R.id.live_name_board_icon);
-        iconView.setImageDrawable(drawable);
+//        Bitmap origin = BitmapFactory.decodeResource(getResources(), R.drawable.fake_user_icon);
+//        RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(getResources(), origin);
+//        drawable.setCircular(true);
+        CircleImageView iconView = findViewById(R.id.live_name_board_icon);
+        ImageUtils.loadImage(LiveActivity.this, getMyPref().getUserData().getProfile_image(), R.drawable.fake_user_icon, iconView);
+//        iconView.setImageDrawable(drawable);
     }
 
     private void initData() {

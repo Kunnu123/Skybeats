@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.ParsedRequestListener;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.skybeats.retrofit.WebAPI;
 import com.skybeats.retrofit.model.BaseModel;
 import com.skybeats.retrofit.model.GetPointsModel;
@@ -64,6 +66,8 @@ public class JoinLiveActivity extends RtcBaseActivity {
     private String recever_id = "";
     private VideoEncoderConfiguration.VideoDimensions mVideoDimension;
     private ProgressDialog progressDialog;
+    BottomSheetDialog bt;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +94,14 @@ public class JoinLiveActivity extends RtcBaseActivity {
         ivSendGift.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                bt =new BottomSheetDialog(context,R.style.BottomSheetDialogTheme);
+                View bottom_sheet_lay = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_lay,null);
+                progressBar = bottom_sheet_lay.findViewById(R.id.pdProgress);
+                RecyclerView btrvGift = bottom_sheet_lay.findViewById(R.id.rvGift);
+                bt.setContentView(bottom_sheet_lay);
+                bt.show();
                 if (AppClass.networkConnectivity.isNetworkAvailable()) {
-                    showProgress();
+                    progressBar.setVisibility(View.VISIBLE);
                     AndroidNetworking.post(WebAPI.BASE_URL + WebAPI.GET_GIFT_LIST)
                             .setTag(this)
                             .setPriority(Priority.HIGH)
@@ -102,27 +112,32 @@ public class JoinLiveActivity extends RtcBaseActivity {
                                     hideProgress();
                                     if (response.isStatus().equalsIgnoreCase("200")) {
                                         if (response.getData().size() > 0) {
-                                            ll_bottom_view.setVisibility(View.GONE);
-                                            ll_Gift.setVisibility(View.VISIBLE);
-                                            llmessage.setVisibility(View.GONE);
+                                            progressBar.setVisibility(View.GONE);
+//                                            ll_bottom_view.setVisibility(View.GONE);
+//                                            ll_Gift.setVisibility(View.VISIBLE);
+//                                            llmessage.setVisibility(View.GONE);
                                             GiftAdapter giftAdapter = new GiftAdapter(response.getData());
-                                            GridLayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
-                                            rvGift.setLayoutManager(mLayoutManager);
-                                            rvGift.setItemAnimator(new DefaultItemAnimator());
-                                            rvGift.setAdapter(giftAdapter);
+                                            GridLayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 5);
+                                            btrvGift.setLayoutManager(mLayoutManager);
+                                            btrvGift.setItemAnimator(new DefaultItemAnimator());
+                                            btrvGift.setAdapter(giftAdapter);
                                         }
                                     }
                                 }
 
                                 @Override
                                 public void onError(ANError anError) {
-                                    hideProgress();
+                                    progressBar.setVisibility(View.GONE);
                                 }
                             });
 
                 } else {
                     Toast.makeText(JoinLiveActivity.this, "Please check your internet connection", Toast.LENGTH_LONG).show();
                 }
+
+
+
+
             }
         });
 
@@ -438,7 +453,6 @@ public class JoinLiveActivity extends RtcBaseActivity {
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.row_gift, parent, false);
-
             return new MyViewHolder(itemView);
         }
 
@@ -448,7 +462,7 @@ public class JoinLiveActivity extends RtcBaseActivity {
             GiftModel giftModel = giftModelList.get(position);
             ImageUtils.loadImage(JoinLiveActivity.this, giftModel.getImage_name(), R.drawable.placeholder, holder.ivGift);
 
-            holder.txtPoints.setText("Points : " + giftModelList.get(position).getPoints());
+            holder.txtPoints.setText(giftModelList.get(position).getPoints());
             holder.rlGift.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -457,7 +471,7 @@ public class JoinLiveActivity extends RtcBaseActivity {
                     llmessage.setVisibility(View.GONE);
 
                     if (AppClass.networkConnectivity.isNetworkAvailable()) {
-                        showProgress();
+                        progressBar.setVisibility(View.VISIBLE);
                         AndroidNetworking.post(WebAPI.BASE_URL + WebAPI.SEND_GIFT)
                                 .addBodyParameter(WebAPI.SENDER_ID, getMyPref().getUserData().getUser_id())
                                 .addBodyParameter(WebAPI.RECEIVER_ID, recever_id)
@@ -468,7 +482,8 @@ public class JoinLiveActivity extends RtcBaseActivity {
                                 .getAsObject(BaseModel.class, new ParsedRequestListener<BaseModel>() {
                                     @Override
                                     public void onResponse(BaseModel response) {
-                                        hideProgress();
+                                        progressBar.setVisibility(View.GONE);
+                                        bt.dismiss();
                                         if (response.isStatus().equalsIgnoreCase("200")) {
                                             Toast.makeText(JoinLiveActivity.this, response.getResponse_msg(), Toast.LENGTH_LONG).show();
                                         } else {
@@ -478,7 +493,7 @@ public class JoinLiveActivity extends RtcBaseActivity {
 
                                     @Override
                                     public void onError(ANError anError) {
-                                        hideProgress();
+                                        progressBar.setVisibility(View.GONE);
                                     }
                                 });
 

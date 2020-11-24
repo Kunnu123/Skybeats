@@ -201,6 +201,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:orientation="horizontal"
         android:layout_marginStart="@dimen/live_bottom_layout_margin"
         android:layout_marginLeft="@dimen/live_bottom_layout_margin"
@@ -212,12 +213,9 @@
             android:id="@+id/ivSendGift"
             android:layout_width="@dimen/live_bottom_btn_size"
             android:layout_height="@dimen/live_bottom_btn_size"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:src="@drawable/ic_gift_box" />
 
-        <View
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"/>
 
         <ImageView
             android:id="@+id/ivmessage"

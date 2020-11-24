@@ -1,30 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
     android:id="@+id/rlGift"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="5dp"
     android:clickable="true"
     android:focusable="true"
-    android:layout_margin="5dp"
     android:gravity="center"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivGift"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
         android:scaleType="fitXY"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:textStyle="bold" />
+        android:src="@drawable/ic_gift_box" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/txtPoints"
-        android:padding="10dp"
-        android:text="Points : 100"
-        android:textSize="@dimen/_10sdp"
-        android:textStyle="bold"
-        android:background="@color/colorAccent_dark"
-        android:textColor="@color/black"
+    <LinearLayout
+        android:gravity="center"
+        android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_diamond"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtPoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:text="Points : 100"
+            android:textColor="@color/colorAccent_dark"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 </LinearLayout>

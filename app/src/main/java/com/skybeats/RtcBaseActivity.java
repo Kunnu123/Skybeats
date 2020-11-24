@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import android.view.SurfaceView;
 
 import com.skybeats.rtc.EventHandler;
+import com.skybeats.rtc.media.RtcTokenBuilder;
+import com.skybeats.utils.AppClass;
 
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoCanvas;
@@ -37,11 +39,12 @@ public abstract class RtcBaseActivity extends BaseActivity implements EventHandl
         // same channel successfully using the same app id.
         // 2. One token is only valid for the channel name and uid that
         // you use to generate this token.
-        String token = getString(R.string.agora_access_token);
-        if (TextUtils.isEmpty(token) || TextUtils.equals(token, "#YOUR ACCESS TOKEN#")) {
-            token = null; // default, no token
+
+//        String token = getString(R.string.agora_access_token);
+        if (TextUtils.isEmpty(AppClass.agoraToken) || TextUtils.equals(AppClass.agoraToken, "#YOUR ACCESS TOKEN#")) {
+            AppClass.agoraToken = null; // default, no token
         }
-        rtcEngine().joinChannel(token, config().getChannelName(), "", 0);
+        rtcEngine().joinChannel(AppClass.agoraToken, config().getChannelName(), "", 0);
     }
 
     protected SurfaceView prepareRtcVideo(int uid, boolean local) {

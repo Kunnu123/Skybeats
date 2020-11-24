@@ -37,6 +37,7 @@ public class AppClass extends Application {
     private ApiTask apiTask;
     private Retrofit retrofit;
     public static NetworkConnectivity networkConnectivity;
+    public static String agoraToken = "";
 
     private RtcEngine mRtcEngine;
     private EngineConfig mGlobalConfig = new EngineConfig();

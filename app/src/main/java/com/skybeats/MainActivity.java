@@ -2,11 +2,15 @@ package com.skybeats;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,12 +19,18 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.skybeats.databinding.ActivityMainBinding;
+import com.skybeats.rtc.media.RtcTokenBuilder;
 import com.skybeats.ui.ProfileFragment;
 import com.skybeats.ui.SearchFragment;
 import com.skybeats.ui.dashboard.DashboardFragment;
 import com.skybeats.ui.home.HomeFragment;
 import com.skybeats.ui.notifications.NotificationsFragment;
+import com.skybeats.utils.AppClass;
 import com.skybeats.utils.ImageUtils;
+
+import io.agora.rtc.RtcChannel;
+import io.agora.rtc.RtcEngine;
+import io.agora.rtc.RtcEngineConfig;
 
 public class MainActivity extends BaseActivity {
     ActivityMainBinding binding;
@@ -41,7 +51,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.maincontainer, new DashboardFragment(MainActivity.this));
         transaction.commit();
@@ -163,7 +172,6 @@ public class MainActivity extends BaseActivity {
         }
 
         if (granted) {
-            config().setChannelName("Skybeats");
             gotoLiveActivity(io.agora.rtc.Constants.CLIENT_ROLE_BROADCASTER);
         } else {
             requestPermissions();
@@ -171,13 +179,48 @@ public class MainActivity extends BaseActivity {
     }
 
     private void gotoLiveActivity(int role) {
-        Intent intent = new Intent(getIntent());
-        intent.putExtra(Constants.KEY_CLIENT_ROLE, role);
-        intent.setClass(getApplicationContext(), LiveActivity.class);
-        startActivity(intent);
+        final Dialog dialog = new Dialog(MainActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.custo_gi);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dialog.dismiss();
+                String appId = "dc5e59c822f940eb98283b57cef08f55";
+                String appCertificate = "ff4a4835e1494786ac7428e784ef22a9";
+                String channelName = getMyPref().getUserData().getUser_id();
+                String userAccount = "";
+                int uid = 0;
+                int expirationTimeInSeconds = 3600;
+
+                RtcTokenBuilder token = new RtcTokenBuilder();
+                int timestamp = (int)(System.currentTimeMillis() / 1000 + expirationTimeInSeconds);
+                String result = token.buildTokenWithUserAccount(appId, appCertificate,
+                        channelName, userAccount, RtcTokenBuilder.Role.Role_Publisher, timestamp);
+                System.out.println(result);
+                AppClass.agoraToken = result;
+
+                result = token.buildTokenWithUid(appId, appCertificate,
+                        channelName, uid, RtcTokenBuilder.Role.Role_Publisher, timestamp);
+                System.out.println(result);
+                AppClass.agoraToken = result;
+                config().setChannelName(getMyPref().getUserData().getUser_id());
+                Intent intent = new Intent(getIntent());
+                intent.putExtra(Constants.KEY_CLIENT_ROLE, role);
+                intent.setClass(getApplicationContext(), LiveActivity.class);
+                startActivity(intent);
+            }
+        },4000);
+        dialog.show();
+
+
     }
 
     private void gotoAudiance(int role) {
+        config().setChannelName(getMyPref().getUserData().getUser_id());
         Intent intent = new Intent(getIntent());
         intent.putExtra(Constants.KEY_CLIENT_ROLE, role);
         intent.setClass(getApplicationContext(), JoinLiveActivity.class);
@@ -204,7 +247,6 @@ public class MainActivity extends BaseActivity {
             }
 
             if (granted) {
-                config().setChannelName("Skybeats");
                 gotoLiveActivity(io.agora.rtc.Constants.CLIENT_ROLE_BROADCASTER);
             } else {
                 toastNeedPermissions();
@@ -218,7 +260,6 @@ public class MainActivity extends BaseActivity {
             }
 
             if (granted) {
-                config().setChannelName("Skybeats");
                 gotoAudiance(io.agora.rtc.Constants.CLIENT_ROLE_AUDIENCE);
             } else {
                 toastNeedPermissions();

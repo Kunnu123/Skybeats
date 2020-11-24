@@ -160,7 +160,7 @@ public class HomeActivity extends BaseActivity {
         }
 
         if (granted) {
-            config().setChannelName("Skybeats");
+            config().setChannelName(getMyPref().getUserData().getUser_id());
             gotoLiveActivity(io.agora.rtc.Constants.CLIENT_ROLE_BROADCASTER);
         } else {
             requestPermissions();
@@ -194,7 +194,7 @@ public class HomeActivity extends BaseActivity {
             }
 
             if (granted) {
-                config().setChannelName("Skybeats");
+                config().setChannelName(getMyPref().getUserData().getUser_id());
                 gotoLiveActivity(io.agora.rtc.Constants.CLIENT_ROLE_BROADCASTER);
             } else {
                 toastNeedPermissions();

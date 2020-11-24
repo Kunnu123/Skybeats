@@ -277,7 +277,6 @@ public class HomeFragment extends Fragment {
         }
 
         if (granted) {
-            activity.config().setChannelName("Skybeats");
             gotoLiveActivity(io.agora.rtc.Constants.CLIENT_ROLE_AUDIENCE);
         } else {
             requestPermissions();
@@ -303,7 +302,7 @@ public class HomeFragment extends Fragment {
             }
 
             if (granted) {
-                activity.config().setChannelName("Skybeats");
+                activity.config().setChannelName(activity.getMyPref().getUserData().getUser_id());
                 gotoLiveActivity(io.agora.rtc.Constants.CLIENT_ROLE_AUDIENCE);
             } else {
                 toastNeedPermissions();
@@ -316,6 +315,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void gotoLiveActivity(int role) {
+        activity.config().setChannelName(activity.getMyPref().getUserData().getUser_id());
         Intent intent = new Intent(getActivity().getIntent());
         intent.putExtra(Constants.KEY_CLIENT_ROLE, role);
         intent.putExtra(WebAPI.RECEIVER_ID, recever_id);
