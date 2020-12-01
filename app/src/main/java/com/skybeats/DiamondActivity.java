@@ -15,12 +15,7 @@ public class DiamondActivity extends BaseActivity {
         binding = ActivityDiamondBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        binding.txtUserPoints.setText(getMyPref().getUserData().getUser_diamonds());
 
         binding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override

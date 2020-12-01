@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.skybeats.databinding.ActivityOtpBinding;
 import com.skybeats.retrofit.ApiCallInterface;
 import com.skybeats.retrofit.model.BaseModel;
@@ -139,17 +141,29 @@ public class OtpActivity extends BaseActivity implements View.OnClickListener, U
     @Override
     public HashMap<String, Object> getParameters(int reqCode) {
 
-
         HashMap<String, Object> map = new HashMap<>();
-        map.put("mobile_no", mobile_no);
-        map.put("otp", binding.etOtp.getText().toString());
-        map.put("notification_token", getMyPref().getData(MyPref.Keys.devicetoken));
-        if (reqCode == ApiCallInterface.LOGIN) {
-            map.put("password", "");
-            map.put("is_login_via_otp", "1");
+        if (getMyPref().getData(MyPref.Keys.devicetoken).equalsIgnoreCase("")){
+            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
+                String newToken = instanceIdResult.getToken();
+                getMyPref().setData(MyPref.Keys.devicetoken, newToken);
+                map.put("mobile_no", mobile_no);
+                map.put("otp", binding.etOtp.getText().toString());
+                map.put("notification_token", getMyPref().getData(MyPref.Keys.devicetoken));
+                if (reqCode == ApiCallInterface.LOGIN) {
+                    map.put("password", "");
+                    map.put("is_login_via_otp", "1");
+                }
+            });
+        }else {
+            map.put("mobile_no", mobile_no);
+            map.put("otp", binding.etOtp.getText().toString());
+            map.put("notification_token", getMyPref().getData(MyPref.Keys.devicetoken));
+            if (reqCode == ApiCallInterface.LOGIN) {
+                map.put("password", "");
+                map.put("is_login_via_otp", "1");
+            }
         }
-
-
+        Log.e("@@@@",getMyPref().getData(MyPref.Keys.devicetoken));
         return map;
     }
 

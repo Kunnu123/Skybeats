@@ -44,6 +44,9 @@
             android:name=".DiamondActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".WalletActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".AddDiamondActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -63,7 +66,7 @@
             android:name=".LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:screenOrientation="portrait">
             <!--            <intent-filter>-->
             <!--                <action android:name="android.intent.action.MAIN" />-->
 

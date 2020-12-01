@@ -42,13 +42,14 @@ public class DashboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TabAdapter viewPagerAdapter = new TabAdapter(getChildFragmentManager());
-        viewPagerAdapter.addFragment(new HomeFragment(mainActivity), "Following");
+        viewPagerAdapter.addFragment(new SearchFragment(), "Follow");
+        viewPagerAdapter.addFragment(new HomeFragment(mainActivity), "Popular");
         viewPagerAdapter.addFragment(new SearchFragment(), "Nearby");
-        viewPagerAdapter.addFragment(new SearchFragment(), "Moments");
-        viewPagerAdapter.addFragment(new SearchFragment(), "Live");
-        viewPagerAdapter.addFragment(new SearchFragment(), "Multi-Guest");
+//        viewPagerAdapter.addFragment(new SearchFragment(), "Moments");
+//        viewPagerAdapter.addFragment(new SearchFragment(), "Live");
+//        viewPagerAdapter.addFragment(new SearchFragment(), "Multi-Guest");
         vpHome.setAdapter(viewPagerAdapter);
-        vpHome.setCurrentItem(0);
+        vpHome.setCurrentItem(1);
         tabHome.setupWithViewPager(vpHome);
 
     }

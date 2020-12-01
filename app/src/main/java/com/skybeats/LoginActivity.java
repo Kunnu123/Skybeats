@@ -26,6 +26,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     UserPresenterInterface presenterInterface;
     private boolean isExist = false;
     ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,7 +133,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             BaseModel baseModel = (BaseModel) success;
             if (baseModel.isStatus().equals("200")) {
                 Toast.makeText(context, baseModel.getResponse_msg(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(context,OtpActivity.class);
+                Intent intent = new Intent(context, OtpActivity.class);
                 intent.putExtra("mobile_no", binding.ccp.getFullNumber());
                 intent.putExtra("isExist", isExist);
                 intent.putExtra("country_name", binding.ccp.getSelectedCountryEnglishName());

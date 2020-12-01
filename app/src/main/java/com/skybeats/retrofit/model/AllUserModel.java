@@ -4,7 +4,31 @@ import java.io.Serializable;
 import java.util.List;
 
 public class AllUserModel extends BaseModel implements Serializable {
-    private String user_id, user_name, gender, country, profile_image, dob, mobile_no, channel_name, create_date, secret_key;
+    private String user_id, user_name, gender, country, profile_image, dob, mobile_no, channel_name, create_date, secret_key, token, skybeat_id, user_diamonds;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getSkybeat_id() {
+        return skybeat_id;
+    }
+
+    public void setSkybeat_id(String skybeat_id) {
+        this.skybeat_id = skybeat_id;
+    }
+
+    public String getUser_diamonds() {
+        return user_diamonds;
+    }
+
+    public void setUser_diamonds(String user_diamonds) {
+        this.user_diamonds = user_diamonds;
+    }
 
     public String getUser_id() {
         return user_id;

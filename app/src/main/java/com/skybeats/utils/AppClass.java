@@ -43,6 +43,9 @@ public class AppClass extends Application {
     private EngineConfig mGlobalConfig = new EngineConfig();
     private AgoraEventHandler mHandler = new AgoraEventHandler();
     private StatsManager mStatsManager = new StatsManager();
+    public static String broadcaseOrAudiance = "";
+    public static int liveUserCount = 0;
+    public static int gift_point = 0;
 
     @Override
     protected void attachBaseContext(Context newBase) {

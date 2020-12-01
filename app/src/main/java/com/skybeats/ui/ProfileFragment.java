@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.skybeats.DiamondActivity;
 import com.skybeats.R;
 import com.skybeats.SplashActivity;
+import com.skybeats.WalletActivity;
 import com.skybeats.retrofit.model.UserModel;
 import com.skybeats.utils.ImageUtils;
 import com.skybeats.utils.MyPref;
@@ -29,9 +30,9 @@ public class ProfileFragment extends Fragment {
 
 
     private MyPref myPref;
-    TextView tv_name, tv_mobile, txtWallets,txtDiamonds, txtLogOut,txtSettings,tv_skyid;
+    TextView tv_name, tv_mobile, txtDiamonds, txtLogOut,tv_skyid;
     ImageView img_profile,ivEdit,ivCheck;
-    LinearLayout llWallets, llSettings,llDisplay,llEdit;
+    LinearLayout llWallets, llSettings,llDisplay,llEdit,txtSettings,txtWallets;
     EditText edt_name;
 
 
@@ -97,34 +98,38 @@ public class ProfileFragment extends Fragment {
         txtWallets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (llWallets.getVisibility() == View.VISIBLE){
-                    llWallets.setVisibility(View.GONE);
-//                    llWallets.animate()
-//                            .alpha(0.0f)
-//                            .setDuration(500)
-//                            .setListener(new AnimatorListenerAdapter() {
-//                                @Override
-//                                public void onAnimationEnd(Animator animation) {
-//                                    super.onAnimationEnd(animation);
-//                                    llWallets.setVisibility(View.GONE);
-//                                }
-//                            });
-                }else {
-                    llWallets.setVisibility(View.VISIBLE);
-                    if(llSettings.getVisibility() == View.VISIBLE){
-                        llSettings.setVisibility(View.GONE);
-                    }
-//                    llWallets.animate()
-//                            .alpha(1.0f)
-//                            .setDuration(500)
-//                            .setListener(new AnimatorListenerAdapter() {
-//                                @Override
-//                                public void onAnimationEnd(Animator animation) {
-//                                    super.onAnimationEnd(animation);
-//                                    llWallets.setVisibility(View.VISIBLE);
-//                                }
-//                            });
-                }
+
+                Intent newIntent = new Intent(getActivity(), WalletActivity.class);
+                startActivity(newIntent);
+
+//                if (llWallets.getVisibility() == View.VISIBLE){
+//                    llWallets.setVisibility(View.GONE);
+////                    llWallets.animate()
+////                            .alpha(0.0f)
+////                            .setDuration(500)
+////                            .setListener(new AnimatorListenerAdapter() {
+////                                @Override
+////                                public void onAnimationEnd(Animator animation) {
+////                                    super.onAnimationEnd(animation);
+////                                    llWallets.setVisibility(View.GONE);
+////                                }
+////                            });
+//                }else {
+//                    llWallets.setVisibility(View.VISIBLE);
+//                    if(llSettings.getVisibility() == View.VISIBLE){
+//                        llSettings.setVisibility(View.GONE);
+//                    }
+////                    llWallets.animate()
+////                            .alpha(1.0f)
+////                            .setDuration(500)
+////                            .setListener(new AnimatorListenerAdapter() {
+////                                @Override
+////                                public void onAnimationEnd(Animator animation) {
+////                                    super.onAnimationEnd(animation);
+////                                    llWallets.setVisibility(View.VISIBLE);
+////                                }
+////                            });
+//                }
             }
         });
 

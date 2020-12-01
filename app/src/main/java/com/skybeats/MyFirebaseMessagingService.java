@@ -68,8 +68,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         Log.d(TAG, "Message data payload: " + remoteMessage.getData());
         Intent in = new Intent();
-        in.setAction("live.broadcast");
-
+        if (AppClass.broadcaseOrAudiance.equalsIgnoreCase("Audience")){
+            in.setAction("live.join");
+        }else {
+            in.setAction("live.broadcast");
+        }
         Map<String, String> params = remoteMessage.getData();
         JSONObject object = new JSONObject(params);
 
@@ -78,11 +81,29 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 in.putExtra("broadcast_url", object.getString("gift_image"));
                 in.putExtra("broadcast_type", object.getString("type"));
                 in.putExtra("broadcast_message", object.getString("message"));
+                AppClass.gift_point = AppClass.gift_point + Integer.parseInt(object.getString("gift_point"));
                 Log.d("sohail", "onHandleIntent: sending broadcast");
-            }else {
+            }else if(object.getString("type").equalsIgnoreCase("join_request")){
+                AppClass.liveUserCount = AppClass.liveUserCount + 1;
                 in.putExtra("broadcast_url", "url");
                 in.putExtra("broadcast_type", object.getString("type"));
                 in.putExtra("broadcast_message", object.getString("message"));
+                if (object.getString("user_name").equalsIgnoreCase("")){
+                    in.putExtra("broadcast_user", "Skybeat User");
+                }else {
+                    in.putExtra("broadcast_user", object.getString("user_name"));
+                }
+                in.putExtra("broadcast_user_image", object.getString("user_image"));
+            }else{
+                in.putExtra("broadcast_url", "url");
+                in.putExtra("broadcast_type", object.getString("type"));
+                in.putExtra("broadcast_message", object.getString("message"));
+                if (object.has("sender_name")){
+                    in.putExtra("broadcast_user", object.getString("sender_name"));
+                }else {
+                    in.putExtra("broadcast_user", "Skybeat User");
+                }
+
             }
             sendBroadcast(in);
             handleNow();

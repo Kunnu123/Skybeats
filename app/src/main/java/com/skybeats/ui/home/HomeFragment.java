@@ -4,33 +4,21 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,31 +27,20 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.ParsedRequestListener;
 import com.denzcoskun.imageslider.ImageSlider;
-import com.denzcoskun.imageslider.adapters.ViewPagerAdapter;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
-import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
-import com.skybeats.AddDiamondActivity;
 import com.skybeats.Constants;
 import com.skybeats.JoinLiveActivity;
-import com.skybeats.LiveActivity;
 import com.skybeats.MainActivity;
 import com.skybeats.R;
-import com.skybeats.databinding.ActivityMainBinding;
-import com.skybeats.databinding.FragmentHomeBinding;
-import com.skybeats.retrofit.ApiCallInterface;
-import com.skybeats.retrofit.DisposableCallback;
 import com.skybeats.retrofit.WebAPI;
 import com.skybeats.retrofit.model.AllUserModel;
-import com.skybeats.retrofit.model.GetPointsModel;
+import com.skybeats.retrofit.model.BaseModel;
 import com.skybeats.retrofit.model.SponserModel;
 import com.skybeats.utils.AppClass;
 import com.skybeats.utils.ImageUtils;
+import com.skybeats.utils.MyPref;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,6 +61,7 @@ public class HomeFragment extends Fragment {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
     private String recever_id = "";
+    private MyPref myPref;
 
     public HomeFragment(MainActivity activity) {
         this.activity = activity;
@@ -119,7 +97,9 @@ public class HomeFragment extends Fragment {
 
 
 //        new RetrieveFeedTask().execute("");
-
+        if (myPref == null) {
+            myPref = new MyPref(getActivity());
+        }
 
         if (AppClass.networkConnectivity.isNetworkAvailable()) {
             AndroidNetworking.post(WebAPI.BASE_URL + WebAPI.GET_USERS)
@@ -252,11 +232,42 @@ public class HomeFragment extends Fragment {
             holder.txtNo.setText(allUserModel.getMobile_no());
             holder.txtCountry.setText(allUserModel.getCountry());
 
+//            if (allUserModel.getUser_name().equalsIgnoreCase("")){
+//                holder.itemView.setVisibility(View.GONE);
+//            }else {
+//                holder.itemView.setVisibility(View.VISIBLE);
+//            }
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    recever_id = allUserModelList.get(position).getUser_id();
-                    checkPermission();
+                    if (!(allUserModelList.get(position).getChannel_name().equalsIgnoreCase("") && allUserModelList.get(position).getToken().equalsIgnoreCase(""))){
+                        recever_id = allUserModelList.get(position).getUser_id();
+                        AppClass.agoraToken = allUserModelList.get(position).getToken();
+                        activity.config().setChannelName(allUserModelList.get(position).getChannel_name());
+                        if (AppClass.networkConnectivity.isNetworkAvailable()) {
+                            AndroidNetworking.post(WebAPI.BASE_URL + WebAPI.WS_JOIN_USER)
+                                    .addBodyParameter(WebAPI.LIVE_STREA_ID, recever_id)
+                                    .addBodyParameter(WebAPI.JOIN_USER_ID, myPref.getUserData().getUser_id())
+                                    .setTag(this)
+                                    .setPriority(Priority.HIGH)
+                                    .build()
+                                    .getAsObject(BaseModel.class, new ParsedRequestListener<BaseModel>() {
+                                        @Override
+                                        public void onResponse(BaseModel response) {
+                                        }
+
+                                        @Override
+                                        public void onError(ANError anError) {
+                                        }
+                                    });
+
+                        }
+                        AppClass.broadcaseOrAudiance = "Audience";
+                        checkPermission();
+                    }else {
+                        Toast.makeText(getActivity(), "User is not LIVE !!", Toast.LENGTH_LONG).show();
+                    }
                 }
             });
         }
@@ -315,7 +326,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void gotoLiveActivity(int role) {
-        activity.config().setChannelName(activity.getMyPref().getUserData().getUser_id());
         Intent intent = new Intent(getActivity().getIntent());
         intent.putExtra(Constants.KEY_CLIENT_ROLE, role);
         intent.putExtra(WebAPI.RECEIVER_ID, recever_id);

@@ -17,8 +17,19 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.ParsedRequestListener;
 import com.skybeats.databinding.ActivityMainBinding;
+import com.skybeats.retrofit.WebAPI;
+import com.skybeats.retrofit.model.BaseModel;
+import com.skybeats.retrofit.model.BroadCastModel;
+import com.skybeats.retrofit.model.GiftModel;
+import com.skybeats.retrofit.model.UserModel;
 import com.skybeats.rtc.media.RtcTokenBuilder;
 import com.skybeats.ui.ProfileFragment;
 import com.skybeats.ui.SearchFragment;
@@ -45,7 +56,7 @@ public class MainActivity extends BaseActivity {
             Manifest.permission.CAMERA,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
-
+    boolean isAPICAll = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +65,26 @@ public class MainActivity extends BaseActivity {
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.maincontainer, new DashboardFragment(MainActivity.this));
         transaction.commit();
+
+        AndroidNetworking.post(WebAPI.BASE_URL + WebAPI.GET_USER_DETAILS)
+                .addBodyParameter(WebAPI.USER_ID, getMyPref().getUserData().getUser_id())
+                .setTag(this)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsObject(UserModel.class, new ParsedRequestListener<UserModel>() {
+                    @Override
+                    public void onResponse(UserModel response) {
+                        if (response.isStatus().equalsIgnoreCase("200")) {
+                            getMyPref().setUserData(response.getData());
+                        }
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+                        anError.getResponse();
+                    }
+                });
+
 
         binding.ivHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +127,9 @@ public class MainActivity extends BaseActivity {
                 isSearch = false;
                 isNotification = true;
                 isProfile = false;
+                binding.line.setVisibility(View.GONE);
+                binding.llBottom.setVisibility(View.GONE);
+                binding.liveVideo.setVisibility(View.GONE);
 //                binding.ivnoti.setBackgroundColor(getResources().getColor(R.color.white));
 //                binding.ivHome.setBackgroundColor(getResources().getColor(R.color.black));
 //                binding.ivSearch.setBackgroundColor(getResources().getColor(R.color.black));
@@ -117,6 +151,9 @@ public class MainActivity extends BaseActivity {
                 isSearch = false;
                 isNotification = false;
                 isProfile = true;
+                binding.line.setVisibility(View.GONE);
+                binding.llBottom.setVisibility(View.GONE);
+                binding.liveVideo.setVisibility(View.GONE);
 //                binding.ivprofile.setBackgroundColor(getResources().getColor(R.color.white));
 //                binding.ivHome.setBackgroundColor(getResources().getColor(R.color.black));
 //                binding.ivSearch.setBackgroundColor(getResources().getColor(R.color.black));
@@ -179,42 +216,97 @@ public class MainActivity extends BaseActivity {
     }
 
     private void gotoLiveActivity(int role) {
-        final Dialog dialog = new Dialog(MainActivity.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.setContentView(R.layout.custo_gi);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                dialog.dismiss();
-                String appId = "dc5e59c822f940eb98283b57cef08f55";
-                String appCertificate = "ff4a4835e1494786ac7428e784ef22a9";
-                String channelName = getMyPref().getUserData().getUser_id();
-                String userAccount = "";
-                int uid = 0;
-                int expirationTimeInSeconds = 3600;
+        String appId = "dc5e59c822f940eb98283b57cef08f55";
+        String appCertificate = "ff4a4835e1494786ac7428e784ef22a9";
+        String channelName = getMyPref().getUserData().getUser_id();
+        String userAccount = "";
+        int uid = 0;
+        int expirationTimeInSeconds = 84000000;
 
-                RtcTokenBuilder token = new RtcTokenBuilder();
-                int timestamp = (int)(System.currentTimeMillis() / 1000 + expirationTimeInSeconds);
-                String result = token.buildTokenWithUserAccount(appId, appCertificate,
-                        channelName, userAccount, RtcTokenBuilder.Role.Role_Publisher, timestamp);
-                System.out.println(result);
-                AppClass.agoraToken = result;
+        RtcTokenBuilder token = new RtcTokenBuilder();
+        int timestamp = (int)(System.currentTimeMillis() / 1000 + expirationTimeInSeconds);
+        String result = token.buildTokenWithUserAccount(appId, appCertificate,
+                channelName, userAccount, RtcTokenBuilder.Role.Role_Publisher, timestamp);
+        System.out.println(result);
+        AppClass.agoraToken = result;
 
-                result = token.buildTokenWithUid(appId, appCertificate,
-                        channelName, uid, RtcTokenBuilder.Role.Role_Publisher, timestamp);
-                System.out.println(result);
-                AppClass.agoraToken = result;
-                config().setChannelName(getMyPref().getUserData().getUser_id());
-                Intent intent = new Intent(getIntent());
-                intent.putExtra(Constants.KEY_CLIENT_ROLE, role);
-                intent.setClass(getApplicationContext(), LiveActivity.class);
-                startActivity(intent);
-            }
-        },4000);
-        dialog.show();
+        result = token.buildTokenWithUid(appId, appCertificate,
+                channelName, uid, RtcTokenBuilder.Role.Role_Publisher, timestamp);
+        System.out.println(result);
+        AppClass.agoraToken = result;
+        config().setChannelName(getMyPref().getUserData().getUser_id());
+
+        Intent intent = new Intent(getIntent());
+        intent.putExtra(Constants.KEY_CLIENT_ROLE, role);
+        intent.setClass(getApplicationContext(), LiveActivity.class);
+        startActivity(intent);
+
+//        final Dialog dialog = new Dialog(MainActivity.this);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.setCancelable(false);
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//        dialog.setContentView(R.layout.custo_gi);
+//
+//        String appId = "dc5e59c822f940eb98283b57cef08f55";
+//        String appCertificate = "ff4a4835e1494786ac7428e784ef22a9";
+//        String channelName = getMyPref().getUserData().getUser_id();
+//        String userAccount = "";
+//        int uid = 0;
+//        int expirationTimeInSeconds = 84000000;
+//
+//        RtcTokenBuilder token = new RtcTokenBuilder();
+//        int timestamp = (int)(System.currentTimeMillis() / 1000 + expirationTimeInSeconds);
+//        String result = token.buildTokenWithUserAccount(appId, appCertificate,
+//                channelName, userAccount, RtcTokenBuilder.Role.Role_Publisher, timestamp);
+//        System.out.println(result);
+//        AppClass.agoraToken = result;
+//
+//        result = token.buildTokenWithUid(appId, appCertificate,
+//                channelName, uid, RtcTokenBuilder.Role.Role_Publisher, timestamp);
+//        System.out.println(result);
+//        AppClass.agoraToken = result;
+//        config().setChannelName(getMyPref().getUserData().getUser_id());
+//
+//
+//        if (AppClass.networkConnectivity.isNetworkAvailable()) {
+//            AndroidNetworking.post(WebAPI.BASE_URL + WebAPI.ADD_USER_DETAILS)
+//                    .addBodyParameter(WebAPI.USER_ID, getMyPref().getUserData().getUser_id())
+//                    .addBodyParameter(WebAPI.SKYBEAT_ID, getMyPref().getUserData().getUser_id())
+//                    .addBodyParameter(WebAPI.TOKEN, result)
+//                    .addBodyParameter(WebAPI.CHANNEL_NAME, getMyPref().getUserData().getUser_id())
+//                    .setTag(this)
+//                    .setPriority(Priority.HIGH)
+//                    .build()
+//                    .getAsObject(BaseModel.class, new ParsedRequestListener<BaseModel>() {
+//                        @Override
+//                        public void onResponse(BaseModel response) {
+//                            if (response.isStatus().equalsIgnoreCase("200")) {
+//                                isAPICAll = true;
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onError(ANError anError) {
+//                        }
+//                    });
+//
+//        }
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                dialog.dismiss();
+//                if (isAPICAll){
+//                    Intent intent = new Intent(getIntent());
+//                    intent.putExtra(Constants.KEY_CLIENT_ROLE, role);
+//                    intent.setClass(getApplicationContext(), LiveActivity.class);
+//                    startActivity(intent);
+//                }else {
+//                    Toast.makeText(MainActivity.this, "Please try again", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        },4000);
+//        dialog.show();
 
 
     }
@@ -276,6 +368,9 @@ public class MainActivity extends BaseActivity {
         if (isHome){
             super.onBackPressed();
         }else {
+            binding.line.setVisibility(View.VISIBLE);
+            binding.llBottom.setVisibility(View.VISIBLE);
+            binding.liveVideo.setVisibility(View.VISIBLE);
             isHome = true;
             isSearch = false;
             isNotification = false;

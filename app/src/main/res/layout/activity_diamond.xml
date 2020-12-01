@@ -6,77 +6,54 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black"
-        android:paddingTop="30dp"
         android:orientation="vertical"
+        android:paddingTop="30dp"
         tools:context=".MainActivity">
 
-        <RelativeLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-
-            <ImageView
-                android:id="@+id/ivBack"
-                android:layout_width="?attr/actionBarSize"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/selectableItemBackground"
-                android:padding="@dimen/_15sdp"
-                android:src="@drawable/back_arrow_white"
-                app:tint="@color/colorAccent" />
-
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:text="Diamonds"
-                android:layout_centerInParent="true"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/_16sdp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        </RelativeLayout>
 
         <LinearLayout
-            android:layout_marginTop="40dp"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:gravity="center"
-            android:background="@drawable/rounded_corner_trans"
             android:layout_width="@dimen/_160sdp"
-            android:layout_height="@dimen/_180sdp">
-        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_height="@dimen/_180sdp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_diamond"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_100sdp"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:text="0"
-            android:layout_marginTop="20dp"
-            android:textSize="@dimen/_20sdp"
-            android:textColor="@color/colorAccent"
-            android:textStyle="bold"
-            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/rounded_corner_trans"
             android:gravity="center"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"/>
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_diamond" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtUserPoints"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/btnAdd"
-            android:layout_marginTop="50dp"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:background="@color/colorAccent"
+            android:gravity="center"
             android:padding="10dp"
             android:text="Add Diamonds"
             android:textColor="@color/black"
-            android:textStyle="bold"
             android:textSize="@dimen/_16sdp"
-            android:background="@color/colorAccent"
-            android:gravity="center"
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="wrap_content"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
 </layout>

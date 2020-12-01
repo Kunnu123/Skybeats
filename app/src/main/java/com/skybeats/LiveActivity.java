@@ -2,31 +2,47 @@ package com.skybeats;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Html;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.ParsedRequestListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.skybeats.retrofit.WebAPI;
+import com.skybeats.retrofit.model.BaseModel;
+import com.skybeats.retrofit.model.BroadCastModel;
 import com.skybeats.stats.LocalStatsData;
 import com.skybeats.stats.RemoteStatsData;
 import com.skybeats.stats.StatsData;
@@ -57,6 +73,9 @@ public class LiveActivity extends RtcBaseActivity {
     FloatingActionButton menu;
 
     private VideoEncoderConfiguration.VideoDimensions mVideoDimension;
+    private AppCompatTextView txtUserCount;
+    private String broadCastId = "0";
+    private TextView txtDiamonds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +84,13 @@ public class LiveActivity extends RtcBaseActivity {
         initUI();
         initData();
 
-        reMyreceive=new Myreceiver();
+        reMyreceive = new Myreceiver();
 
         //typo mistake
         //Edited after pointing out by a reader, thanks
         // IntentFilter filter=new IntentFilter("sohail.aziz");
 
-        filter=new IntentFilter("live.broadcast");
+        filter = new IntentFilter("live.broadcast");
 
     }
 
@@ -80,7 +99,7 @@ public class LiveActivity extends RtcBaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             // TODO Auto-generated method stub
-                flyEmoji(intent.getStringExtra("broadcast_url"), intent.getStringExtra("broadcast_type"), intent.getStringExtra("broadcast_message"));
+            flyEmoji(intent.getStringExtra("broadcast_url"), intent.getStringExtra("broadcast_type"), intent.getStringExtra("broadcast_message"), intent.getStringExtra("broadcast_user"), intent.getStringExtra("broadcast_user_image"));
         }
 
     }
@@ -91,6 +110,7 @@ public class LiveActivity extends RtcBaseActivity {
         super.onPause();
 
     }
+
     @Override
     protected void onResume() {
         // TODO Auto-generated method stub
@@ -104,8 +124,8 @@ public class LiveActivity extends RtcBaseActivity {
 
         protected Bitmap doInBackground(String... urls) {
             try {
-                HttpURLConnection connection = (HttpURLConnection)new URL(urls[0]) .openConnection();
-                connection.setRequestProperty("User-agent","Mozilla/4.0");
+                HttpURLConnection connection = (HttpURLConnection) new URL(urls[0]).openConnection();
+                connection.setRequestProperty("User-agent", "Mozilla/4.0");
 
                 connection.connect();
                 InputStream input = connection.getInputStream();
@@ -128,7 +148,7 @@ public class LiveActivity extends RtcBaseActivity {
             animation.setOriginationDirection(Direction.BOTTOM);
             animation.setDestinationDirection(Direction.TOP);
             animation.setImage(feed);
-            animation.setDuration(5000);
+            animation.setDuration(10000);
             animation.setAnimationListener(new Animation.AnimationListener() {
                                                @Override
                                                public void onAnimationStart(Animation animation) {
@@ -153,55 +173,116 @@ public class LiveActivity extends RtcBaseActivity {
         }
     }
 
-    public void flyEmoji(String url, String type, String message) {
-
-        if (type.equalsIgnoreCase("new_gift")){
+    public void flyEmoji(String url, String type, String message, String userName, String userImage) {
+        txtUserCount.setText(String.valueOf(AppClass.liveUserCount));
+        txtDiamonds.setText(String.valueOf(AppClass.gift_point));
+        if (type.equalsIgnoreCase("new_gift")) {
             new RetrieveFeedTask().execute(url);
-        }else {
+        } else if (type.equalsIgnoreCase("join_request")) {
             LinearLayout llMain = findViewById(R.id.llMain);
+            LinearLayout llJoinedUser = findViewById(R.id.llJoinedUser);
+            CircleImageView imageView = new CircleImageView(LiveActivity.this);
+            LinearLayout.LayoutParams paramsiv = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            paramsiv.height = 80;
+            paramsiv.width = 80;
+            paramsiv.setMargins(5, 5, 5, 5);
+            imageView.setLayoutParams(paramsiv);
+
+            ImageUtils.loadImage(LiveActivity.this, userImage, R.drawable.fake_user_icon, imageView);
+            llJoinedUser.addView(imageView);
+
+
             AppCompatTextView textView = new AppCompatTextView(LiveActivity.this);
-            textView.setText(message);
-            textView.setPadding(20,20,20,20);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                textView.setText(Html.fromHtml(userName + "<font color='#EDD139'> joined the LIVE", Html.FROM_HTML_MODE_COMPACT));
+            } else {
+                textView.setText(Html.fromHtml(userName + "<font color='#EDD139'> joined the LIVE"));
+            }
+            textView.setTextColor(getResources().getColor(R.color.white));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(5, 5, 5, 5);
+            textView.setLayoutParams(params);
+            textView.setPadding(10, 10, 10, 10);
             textView.setBackgroundDrawable(getResources().getDrawable(R.drawable.text_full_transparent));
-            textView.setTextColor(getResources().getColor(R.color.colorAccent));
             textView.setVisibility(textView.VISIBLE);
             textView.setAlpha(1.0f);
 // Start the animation
             llMain.addView(textView);
-            textView.animate()
-                    .translationY(textView.getHeight())
-                    .setDuration(5000)
-                    .alpha(0.0f)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            textView.setVisibility(View.GONE);
-                        }
-                    });
+//            textView.animate()
+//                    .translationY(textView.getHeight())
+//                    .setDuration(5000)
+//                    .alpha(0.0f)
+//                    .setListener(new AnimatorListenerAdapter() {
+//                        @Override
+//                        public void onAnimationEnd(Animator animation) {
+//                            super.onAnimationEnd(animation);
+//                            textView.setVisibility(View.GONE);
+//                        }
+//                    });
+        } else {
+            LinearLayout llMain = findViewById(R.id.llMain);
+            AppCompatTextView textView = new AppCompatTextView(LiveActivity.this);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                textView.setText(Html.fromHtml("<font color='#EDD139'> " + userName + " Says : </font>" + message, Html.FROM_HTML_MODE_COMPACT));
+            } else {
+                textView.setText(Html.fromHtml("<font color='#EDD139'> " + userName + " Says : </font>" + message));
+            }
+            textView.setPadding(10, 10, 10, 10);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(5, 5, 5, 5);
+            textView.setLayoutParams(params);
+            textView.setTextColor(getResources().getColor(R.color.white));
+            textView.setBackgroundDrawable(getResources().getDrawable(R.drawable.text_full_transparent));
+            textView.setVisibility(textView.VISIBLE);
+            textView.setAlpha(1.0f);
+// Start the animation
+            llMain.addView(textView);
+//            textView.animate()
+//                    .translationY(textView.getHeight())
+//                    .setDuration(5000)
+//                    .alpha(0.0f)
+//                    .setListener(new AnimatorListenerAdapter() {
+//                        @Override
+//                        public void onAnimationEnd(Animator animation) {
+//                            super.onAnimationEnd(animation);
+//                            textView.setVisibility(View.GONE);
+//                        }
+//                    });
         }
-
 
 
     }
 
     private void initUI() {
         TextView roomName = findViewById(R.id.live_room_name);
+        txtDiamonds = findViewById(R.id.txtDiamonds);
+        TextView btnGoLive = findViewById(R.id.btnGoLive);
+        txtUserCount = findViewById(R.id.txtUserCount);
+        txtDiamonds.setText("0");
         TextView live_room_broadcaster_uid = findViewById(R.id.live_room_broadcaster_uid);
         llMain = findViewById(R.id.llMain);
         bottom_container = findViewById(R.id.bottom_container);
         menu = findViewById(R.id.menu);
 //        roomName.setText(config().getChannelName());
-        live_room_broadcaster_uid.setText("ID : " +config().getChannelName());
+        live_room_broadcaster_uid.setText("ID : " + config().getChannelName());
         roomName.setText(getMyPref().getUserData().getUser_name());
         roomName.setSelected(true);
 
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (bottom_container.getVisibility() == View.VISIBLE){
+                if (bottom_container.getVisibility() == View.VISIBLE) {
                     bottom_container.setVisibility(View.GONE);
-                }else {
+                } else {
                     bottom_container.setVisibility(View.VISIBLE);
                 }
             }
@@ -230,6 +311,52 @@ public class LiveActivity extends RtcBaseActivity {
 
         rtcEngine().setClientRole(role);
         if (isBroadcaster) startBroadcast();
+
+        btnGoLive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog dialog = new Dialog(LiveActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                dialog.setContentView(R.layout.custo_gi);
+
+
+                if (AppClass.networkConnectivity.isNetworkAvailable()) {
+                    AndroidNetworking.post(WebAPI.BASE_URL + WebAPI.ADD_USER_DETAILS)
+                            .addBodyParameter(WebAPI.USER_ID, getMyPref().getUserData().getUser_id())
+                            .addBodyParameter(WebAPI.SKYBEAT_ID, getMyPref().getUserData().getUser_id())
+                            .addBodyParameter(WebAPI.TOKEN, AppClass.agoraToken)
+                            .addBodyParameter(WebAPI.CHANNEL_NAME, getMyPref().getUserData().getUser_id())
+                            .setTag(this)
+                            .setPriority(Priority.HIGH)
+                            .build()
+                            .getAsObject(BroadCastModel.class, new ParsedRequestListener<BroadCastModel>() {
+                                @Override
+                                public void onResponse(BroadCastModel response) {
+                                    if (response.isStatus().equalsIgnoreCase("200")) {
+                                        AppClass.broadcaseOrAudiance = "Broadcast";
+                                        broadCastId = response.getData().getBrodcast_id();
+                                        btnGoLive.setVisibility(View.GONE);
+                                    }
+                                }
+
+                                @Override
+                                public void onError(ANError anError) {
+                                    anError.getResponse();
+                                }
+                            });
+
+                }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.dismiss();
+                    }
+                }, 4000);
+                dialog.show();
+            }
+        });
     }
 
     private void initUserIcon() {
@@ -380,11 +507,68 @@ public class LiveActivity extends RtcBaseActivity {
     @Override
     public void finish() {
         super.finish();
+        AppClass.broadcaseOrAudiance = "";
+        AppClass.liveUserCount = 0;
+        AndroidNetworking.post(WebAPI.BASE_URL + WebAPI.WS_STOP_BROADCAST)
+                .addBodyParameter(WebAPI.USER_ID, getMyPref().getUserData().getUser_id())
+                .addBodyParameter(WebAPI.BRODCAST_ID, broadCastId)
+                .setTag(this)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsObject(BaseModel.class, new ParsedRequestListener<BaseModel>() {
+                    @Override
+                    public void onResponse(BaseModel response) {
+                        Log.e("@@@@", response.isStatus());
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+                    }
+                });
         statsManager().clearAllData();
     }
 
     public void onLeaveClicked(View view) {
-        finish();
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LiveActivity.this);
+        alertDialogBuilder.setMessage(getResources().getString(R.string.leave_message));
+        alertDialogBuilder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        finish();
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LiveActivity.this);
+        alertDialogBuilder.setMessage(getResources().getString(R.string.leave_message));
+        alertDialogBuilder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        finish();
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     public void onSwitchCameraClicked(View view) {
